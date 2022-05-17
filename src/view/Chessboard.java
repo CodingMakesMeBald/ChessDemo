@@ -30,7 +30,11 @@ public class Chessboard extends JComponent {
     //all chessComponents in this chessboard are shared only one model controller
     private final ClickController clickController = new ClickController(this);//鼠标点击
     private final int CHESS_SIZE;//棋子大小
+    private JLabel statusLabel;
 
+    public void setStatusLabel(JLabel statusLabel) {
+        this.statusLabel = statusLabel;
+    }
 
     public Chessboard(int width, int height) {
         setLayout(null); // Use absolute layout  .设置布局？
@@ -38,7 +42,15 @@ public class Chessboard extends JComponent {
         CHESS_SIZE = width / 8;//棋盘大小
         System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
 
+        initialize();
+
+
+
+    }
+
+    public void initialize(){
         initiateEmptyChessboard();
+
 
         // FIXME: Initialize chessboard for testing only.
         //rook
@@ -79,9 +91,7 @@ public class Chessboard extends JComponent {
         //queen
         initQueenOnBoard(0, 3, ChessColor.BLACK);
         initQueenOnBoard(7, 3, ChessColor.WHITE);
-
-
-
+        repaint();
     }
 
     public ChessComponent[][] getChessComponents() {
@@ -127,6 +137,7 @@ public class Chessboard extends JComponent {
 
     public void swapColor() {
         currentColor = currentColor == ChessColor.BLACK ? ChessColor.WHITE : ChessColor.BLACK;
+        statusLabel.setText(currentColor.toString());
     }
 
     private void initRookOnBoard(int row, int col, ChessColor color) {
@@ -179,5 +190,38 @@ public class Chessboard extends JComponent {
 
     public void loadGame(List<String> chessData) {
         chessData.forEach(System.out::println);
+        initiateEmptyChessboard();
+        for (int i = 0; i < chessData.size(); i++) {
+            for (int j = 0; j < chessData.get(i).length(); j++) {
+                if (chessData.get(i).charAt(j) == 'R'){
+                    initRookOnBoard(i, j, ChessColor.BLACK);
+                }else if (chessData.get(i).charAt(j) == 'Q'){
+                    initQueenOnBoard(i, j, ChessColor.BLACK);
+                }else if (chessData.get(i).charAt(j) == 'K'){
+                    initKnightOnBoard(i, j, ChessColor.BLACK);
+                }else if (chessData.get(i).charAt(j) == 'P'){
+                    initPawnOnBoard(i, j, ChessColor.BLACK);
+                }else if (chessData.get(i).charAt(j) == 'N'){
+                    initKnightOnBoard(i, j, ChessColor.BLACK);
+                }else if (chessData.get(i).charAt(j) == 'B'){
+                    initBishopOnBoard(i, j, ChessColor.BLACK);
+                }else if (chessData.get(i).charAt(j) == 'r'){
+                    initRookOnBoard(i, j, ChessColor.WHITE);
+                }else if (chessData.get(i).charAt(j) == 'q'){
+                    initQueenOnBoard(i, j, ChessColor.WHITE);
+                }else if (chessData.get(i).charAt(j) == 'k'){
+                    initKnightOnBoard(i, j, ChessColor.WHITE);
+                }else if (chessData.get(i).charAt(j) == 'p'){
+                    initPawnOnBoard(i, j, ChessColor.WHITE);
+                }else if (chessData.get(i).charAt(j) == 'n'){
+                    initKnightOnBoard(i, j, ChessColor.WHITE);
+                }else if (chessData.get(i).charAt(j) == 'b'){
+                    initBishopOnBoard(i, j, ChessColor.WHITE);
+                }else if (chessData.get(i).charAt(j) == '_'){
+                    continue;
+                }
+            }
+        }
+        repaint();
     }
 }

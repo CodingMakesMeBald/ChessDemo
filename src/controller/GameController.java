@@ -2,6 +2,7 @@ package controller;
 
 import view.Chessboard;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,6 +24,14 @@ public class GameController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void initialize(){
+        chessboard.initialize();
+    }
+
+    public void JFileChooserTest(){
+        JFileChooser jFileChooser = new JFileChooser();
     }
 
 }

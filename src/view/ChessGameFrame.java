@@ -1,5 +1,6 @@
 package view;
 
+import Music.Music;
 import controller.GameController;
 
 import javax.swing.*;
@@ -14,9 +15,11 @@ public class ChessGameFrame extends JFrame {
     private final int HEIGTH;
     public final int CHESSBOARD_SIZE;
     private GameController gameController;
+    JLabel statusLabel;
+
 
     public ChessGameFrame(int width, int height) {
-        setTitle("2022 CS102A Project Demo"); //设置标题
+        setTitle("Chess"); //设置标题
         this.WIDTH = width;
         this.HEIGTH = height;
         this.CHESSBOARD_SIZE = HEIGTH * 4 / 5;
@@ -27,10 +30,16 @@ public class ChessGameFrame extends JFrame {
         setLayout(null);
 
 
-        addChessboard();
-        addLabel();
+        addLabel();//create label
+        addChessboard();//set label
         addHelloButton();
         addLoadButton();
+        addCurrentPlayerLabel();
+        addResetButton();
+
+        String filepath = "giao.wav";
+        Music musicObject = new Music();
+        musicObject.playMusic(filepath);
     }
 
 
@@ -39,6 +48,7 @@ public class ChessGameFrame extends JFrame {
      */
     private void addChessboard() {
         Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE);
+        chessboard.setStatusLabel(statusLabel);
         gameController = new GameController(chessboard);
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
         add(chessboard);
@@ -48,15 +58,19 @@ public class ChessGameFrame extends JFrame {
      * 在游戏面板中添加标签
      */
     private void addLabel() {
-        JLabel statusLabel = new JLabel("Sample label");
-        statusLabel.setLocation(HEIGTH, HEIGTH / 10);
+        statusLabel = new JLabel("WHITE");
+        statusLabel.setLocation(350, 10);
         statusLabel.setSize(200, 60);
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(statusLabel);
     }
 
+    public JLabel getStatusLabel(){
+        return statusLabel;
+    }
+
     /**
-     * 在游戏面板中增加一个按钮，如果按下的话就会显示Hello, world!
+     * 在游戏面板中增加一个按钮，如果按下的话就会显示 Hello, world!
      */
 
     private void addHelloButton() {
@@ -81,5 +95,29 @@ public class ChessGameFrame extends JFrame {
             gameController.loadGameFromFile(path);
         });
     }
+
+    private void addCurrentPlayerLabel(){
+        JLabel currentPlayer = new JLabel("CurrentPlayer:");
+        currentPlayer.setLocation(200, 10 );
+        currentPlayer.setSize(200, 60);
+        currentPlayer.setFont(new Font("Rockwell", Font.BOLD, 20));//字体
+        add(currentPlayer);
+    }
+
+
+    private void addResetButton()  {
+        JButton button = new JButton("Reset");
+        button.setLocation(HEIGTH, HEIGTH / 10 + 360);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        button.addActionListener((e) ->
+                {
+                    System.out.println("Reset Game!! ");
+                    gameController.initialize();
+                }
+        );
+        add(button);
+    }
+
 
 }
