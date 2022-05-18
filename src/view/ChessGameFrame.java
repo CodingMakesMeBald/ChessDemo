@@ -37,7 +37,7 @@ public class ChessGameFrame extends JFrame {
         addCurrentPlayerLabel();
         addResetButton();
 
-        String filepath = "giao.wav";
+        String filepath = "D:\\南方科技大学\\OneDrive - 南方科技大学\\大一下\\JAVA\\ChessDemo\\ChessDemo\\resource\\music.wav";
         Music musicObject = new Music();
         musicObject.playMusic(filepath);
     }

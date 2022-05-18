@@ -18,6 +18,7 @@ public class Music {
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInput);
                 clip.start();
+                clip.loop(-1);
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
             }
             else
