@@ -5,6 +5,7 @@
 
 import javax.swing.SwingUtilities;
 import view.ChessGameFrame;
+import view.StartFrame;
 
 public class Main {
     public Main() {
@@ -12,8 +13,10 @@ public class Main {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ChessGameFrame mainFrame = new ChessGameFrame(1000, 760);
-            mainFrame.setVisible(true);
+            StartFrame a = new StartFrame(1000, 700);
+            a.setVisible(true);
+            //ChessGameFrame mainFrame = new ChessGameFrame(1000, 760);
+            //mainFrame.setVisible(true);
         });
     }
 }

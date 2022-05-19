@@ -16,6 +16,7 @@ public class ChessGameFrame extends JFrame {
     public final int CHESSBOARD_SIZE;
     private GameController gameController;
     JLabel statusLabel;
+    JLabel roundLabel;
 
 
     public ChessGameFrame(int width, int height) {
@@ -37,6 +38,8 @@ public class ChessGameFrame extends JFrame {
         addCurrentPlayerLabel();
         addResetButton();
 
+        //addBackground();
+
         String filepath = "D:\\南方科技大学\\OneDrive - 南方科技大学\\大一下\\JAVA\\ChessDemo\\ChessDemo\\resource\\music.wav";
         Music musicObject = new Music();
         musicObject.playMusic(filepath);
@@ -52,18 +55,20 @@ public class ChessGameFrame extends JFrame {
         gameController = new GameController(chessboard);
         chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
         add(chessboard);
+        addBackground();
     }
 
     /**
      * 在游戏面板中添加标签
      */
-    private void addLabel() {
+    private void addLabel() {//行棋方（冒号后）
         statusLabel = new JLabel("WHITE");
         statusLabel.setLocation(350, 10);
         statusLabel.setSize(200, 60);
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(statusLabel);
     }
+
 
     public JLabel getStatusLabel(){
         return statusLabel;
@@ -117,6 +122,16 @@ public class ChessGameFrame extends JFrame {
                 }
         );
         add(button);
+    }
+
+    private void addBackground(){
+        JPanel imPanel = (JPanel) this.getContentPane();
+        imPanel.setOpaque(false);// 设置面板透明
+        ImageIcon icon1 = new ImageIcon("resource\\bg.jpeg");// 背景图
+        JLabel label = new JLabel(icon1);// 向标签中加入图片
+        label.setBounds(0, 0, getWidth(), getHeight());// 设置标签与窗口一样大
+        icon1.setImage(icon1.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));// 图片自适应窗口大小
+        getLayeredPane().add(label, Integer.valueOf(Integer.MIN_VALUE));// 标签添加到面板
     }
 
 

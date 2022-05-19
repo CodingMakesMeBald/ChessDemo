@@ -1,5 +1,6 @@
 package model;
 
+import view.Chessboard;
 import view.ChessboardPoint;
 import controller.ClickController;
 
@@ -21,12 +22,18 @@ public abstract class ChessComponent extends JComponent {
      * 因此每个棋子占用的形状是一个正方形，大小是50*50
      */
 
-//    private static final Dimension CHESSGRID_SIZE = new Dimension(1080 / 4 * 3 / 8, 1080 / 4 * 3 / 8);
+
     private static final Color[] BACKGROUND_COLORS = {Color.PINK, Color.GRAY};
     /**
      * handle click event
      */
     private ClickController clickController;
+    public static int round;
+    public int counter;//棋子走的步数
+    public int counter1;
+    public boolean atOnce;//立刻吃过路兵
+    public ChessComponent chessComponent = null;
+
 
     /**
      * chessboardPoint: 表示8*8棋盘中，当前棋子在棋格对应的位置，如(0, 0), (1, 0), (0, 7),(7, 7)等等
@@ -47,6 +54,7 @@ public abstract class ChessComponent extends JComponent {
         this.chessColor = chessColor;
         this.selected = false;
         this.clickController = clickController;
+
     }
 
     public ChessboardPoint getChessboardPoint() {
@@ -122,4 +130,6 @@ public abstract class ChessComponent extends JComponent {
         g.setColor(squareColor);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
     }
+
+
 }

@@ -31,9 +31,18 @@ public class Chessboard extends JComponent {
     private final ClickController clickController = new ClickController(this);//鼠标点击
     private final int CHESS_SIZE;//棋子大小
     private JLabel statusLabel;
+    private int chessround;
 
     public void setStatusLabel(JLabel statusLabel) {
         this.statusLabel = statusLabel;
+    }
+
+    public void setCurrentColor(){
+        currentColor = ChessColor.WHITE;
+    }
+
+    public ChessComponent[][] getChessboard() {
+        return chessComponents;
     }
 
     public Chessboard(int width, int height) {
@@ -44,12 +53,15 @@ public class Chessboard extends JComponent {
 
         initialize();
 
-
-
     }
 
+
+
     public void initialize(){
+
+        currentColor = ChessColor.WHITE;
         initiateEmptyChessboard();
+
 
 
         // FIXME: Initialize chessboard for testing only.
@@ -111,17 +123,33 @@ public class Chessboard extends JComponent {
         add(chessComponents[row][col] = chessComponent);
     }
 
+    public void passPawn(ChessComponent chess1, ChessComponent chess2){
+
+    }
+
     public void swapChessComponents(ChessComponent chess1, ChessComponent chess2) {
         // Note that chess1 has higher priority, 'destroys' chess2 if exists.
+
+        ChessComponent.round++;//回合数加一
+
         if (!(chess2 instanceof EmptySlotComponent)) {
             remove(chess2);
             add(chess2 = new EmptySlotComponent(chess2.getChessboardPoint(), chess2.getLocation(), clickController, CHESS_SIZE));
         }
+        if (chess1 instanceof PawnChessComponent){//兵每走一步其步数加一
+            chess1.counter ++;
+            chess1.counter1 = ChessComponent.round;
+        }
+
+
         chess1.swapLocation(chess2);
         int row1 = chess1.getChessboardPoint().getX(), col1 = chess1.getChessboardPoint().getY();
         chessComponents[row1][col1] = chess1;
         int row2 = chess2.getChessboardPoint().getX(), col2 = chess2.getChessboardPoint().getY();
         chessComponents[row2][col2] = chess2;
+
+        chess1.atOnce = false;
+
 
         chess1.repaint();
         chess2.repaint();

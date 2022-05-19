@@ -13,8 +13,10 @@ public class PawnChessComponent extends ChessComponent{
     private static Image PAWN_WHITE;
     private static Image PAWN_BLACK;
 
+
     private Image pawnImage;
-    private boolean first;
+    private int counter1;
+
 
     public void loadResource() throws IOException {
         if (PAWN_WHITE == null) {
@@ -51,6 +53,7 @@ public class PawnChessComponent extends ChessComponent{
             if (source.getX() == 1 && destination.getX() - source.getX() == 2 && destination.getY() == source.getY()
                     && chessComponents[source.getX() + 2][source.getY()] instanceof EmptySlotComponent
                     && chessComponents[source.getX() + 1][source.getY()] instanceof EmptySlotComponent){
+                chessComponents[destination.getX() - 1][destination.getY()].chessComponent = this;
                 return true;
             }
             if(destination.getX() - source.getX() == 1 && destination.getY() == source.getY()
@@ -66,11 +69,32 @@ public class PawnChessComponent extends ChessComponent{
                     && chessComponents[destination.getX()][destination.getY()].getChessColor() == ChessColor.WHITE) {
                 return true;
             }
+            //过路兵
+            if(destination.getX() - source.getX() == 1 && destination.getY() - source.getY() == -1
+                    && chessComponents[source.getX()][source.getY() - 1] instanceof PawnChessComponent
+                    && chessComponents[source.getX()][source.getY() - 1].getChessColor() == ChessColor.WHITE
+                    && chessComponents[source.getX() + 1][source.getY() - 1] instanceof EmptySlotComponent
+                    && chessComponents[source.getX()][source.getY() - 1].counter == 1
+                    && source.getX() == 4 && ChessComponent.round - chessComponents[source.getX()][source.getY() - 1].counter1 == 0 ){
+
+                return true;
+            }
+            if(destination.getX() - source.getX() == 1 && destination.getY() - source.getY() == 1
+                    && chessComponents[source.getX()][source.getY() + 1] instanceof PawnChessComponent
+                    && chessComponents[source.getX()][source.getY() + 1].getChessColor() == ChessColor.WHITE
+                    && chessComponents[source.getX() + 1][source.getY() + 1] instanceof EmptySlotComponent
+                    && chessComponents[source.getX()][source.getY() + 1].counter == 1
+                    && source.getX() == 4 && ChessComponent.round - chessComponents[source.getX()][source.getY() + 1].counter1 == 0){
+
+                return true;
+            }
+
         }else if (this.getChessColor() == ChessColor.WHITE){
                 //第一步可以走两格
                 if (source.getX() == 6 && destination.getX() - source.getX() == -2 && destination.getY() == source.getY()
                         && chessComponents[source.getX() - 2][source.getY()] instanceof EmptySlotComponent
                         && chessComponents[source.getX() - 1][source.getY()] instanceof EmptySlotComponent) {
+                    chessComponents[destination.getX() + 1][destination.getY()].chessComponent = this;
                     return true;
                 }
                 if (destination.getX() - source.getX() == -1 && destination.getY() == source.getY()
@@ -86,6 +110,25 @@ public class PawnChessComponent extends ChessComponent{
                         && chessComponents[destination.getX()][destination.getY()].getChessColor() == ChessColor.BLACK) {
                     return true;
                 }
+            //过路兵
+            if(destination.getX() - source.getX() == -1 && destination.getY() - source.getY() == -1
+                    && chessComponents[source.getX()][source.getY() - 1] instanceof PawnChessComponent
+                    && chessComponents[source.getX()][source.getY() - 1].getChessColor() == ChessColor.BLACK
+                    && chessComponents[source.getX() - 1][source.getY() - 1] instanceof EmptySlotComponent
+                    && chessComponents[source.getX()][source.getY() - 1].counter == 1
+                    && source.getX() == 3 && ChessComponent.round - chessComponents[source.getX()][source.getY() - 1].counter1 == 0 ){
+
+                return true;
+            }
+            if(destination.getX() - source.getX() == -1 && destination.getY() - source.getY() == 1
+                    && chessComponents[source.getX()][source.getY() + 1] instanceof PawnChessComponent
+                    && chessComponents[source.getX()][source.getY() + 1].getChessColor() == ChessColor.BLACK
+                    && chessComponents[source.getX() - 1][source.getY() + 1] instanceof EmptySlotComponent
+                    && chessComponents[source.getX()][source.getY() + 1].counter == 1
+                    && source.getX() == 3 && ChessComponent.round - chessComponents[source.getX()][source.getY() + 1].counter1 == 0){
+
+                return true;
+            }
         }
         return false;
 

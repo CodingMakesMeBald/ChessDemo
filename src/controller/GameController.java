@@ -26,7 +26,12 @@ public class GameController {
         return null;
     }
 
+    public Chessboard getChessboard() {
+        return chessboard;
+    }
+
     public void initialize(){
+        chessboard.setCurrentColor();
         chessboard.initialize();
     }
 
