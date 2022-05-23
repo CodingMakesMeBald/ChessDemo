@@ -2,9 +2,11 @@ package view;
 
 import Music.Music;
 import controller.GameController;
+import controller.Timers;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * 这个类表示游戏过程中的整个游戏界面，是一切的载体
@@ -17,6 +19,10 @@ public class ChessGameFrame extends JFrame {
     private GameController gameController;
     JLabel statusLabel;
     JLabel roundLabel;
+    public static JLabel timer;
+    public static Timers remainingTime = new Timers();
+    int count2 = 0;
+
 
 
     public ChessGameFrame(int width, int height) {
@@ -24,6 +30,7 @@ public class ChessGameFrame extends JFrame {
         this.WIDTH = width;
         this.HEIGTH = height;
         this.CHESSBOARD_SIZE = HEIGTH * 4 / 5;
+
 
         setSize(WIDTH, HEIGTH);
         setLocationRelativeTo(null); // Center the window.
@@ -33,16 +40,19 @@ public class ChessGameFrame extends JFrame {
 
         addLabel();//create label
         addChessboard();//set label
-        addHelloButton();
+        addBackButton();
         addLoadButton();
         addCurrentPlayerLabel();
         addResetButton();
+        addSaveButton();
 
         //addBackground();
 
-        String filepath = "D:\\南方科技大学\\OneDrive - 南方科技大学\\大一下\\JAVA\\ChessDemo\\ChessDemo\\resource\\music.wav";
+        String filepath = "D:\\南方科技大学\\OneDrive - 南方科技大学\\大一下\\JAVA\\ChessDemo\\ChessDemo\\music\\music.wav";
         Music musicObject = new Music();
         musicObject.playMusic(filepath);
+
+        Time();
     }
 
 
@@ -78,14 +88,7 @@ public class ChessGameFrame extends JFrame {
      * 在游戏面板中增加一个按钮，如果按下的话就会显示 Hello, world!
      */
 
-    private void addHelloButton() {
-        JButton button = new JButton("Show Hello Here");
-        button.addActionListener((e) -> JOptionPane.showMessageDialog(this, "Hello, world!"));
-        button.setLocation(HEIGTH, HEIGTH / 10 + 120);
-        button.setSize(200, 60);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(button);
-    }
+
 
     private void addLoadButton() {
         JButton button = new JButton("Load");
@@ -127,12 +130,72 @@ public class ChessGameFrame extends JFrame {
     private void addBackground(){
         JPanel imPanel = (JPanel) this.getContentPane();
         imPanel.setOpaque(false);// 设置面板透明
-        ImageIcon icon1 = new ImageIcon("resource\\bg.jpeg");// 背景图
+        ImageIcon icon1 = new ImageIcon("images\\bg.jpeg");// 背景图
         JLabel label = new JLabel(icon1);// 向标签中加入图片
         label.setBounds(0, 0, getWidth(), getHeight());// 设置标签与窗口一样大
         icon1.setImage(icon1.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));// 图片自适应窗口大小
         getLayeredPane().add(label, Integer.valueOf(Integer.MIN_VALUE));// 标签添加到面板
     }
+
+    public void Time(){
+        remainingTime.start();
+        timer=new JLabel("Remaining Time: " + remainingTime);
+        timer.setLocation(760, 760 / 10+40);
+        timer.setSize(200, 60);
+        timer.setFont(new Font("Rockwell", Font.BOLD, 20));
+        timer.setVisible(true);
+        add(timer);
+    }
+
+    public void addSaveButton(){
+        JButton button = new JButton("Save");
+        button.setLocation(HEIGTH, HEIGTH / 10 + 480);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        button.addActionListener((e) ->
+                {
+                    JOptionPane.showMessageDialog(null, "保存成功！");
+                    try {
+                        GameController.Save();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
+                }
+        );
+        add(button);
+    }
+
+    private void addBackButton() {
+        JButton button = new JButton("back");
+        button.setLocation(HEIGTH, HEIGTH / 10 + 120);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+
+        button.addActionListener(e -> {
+
+            count2++;
+            System.out.println("Click back");
+            System.out.println(count2);
+            try {
+                Chessboard.creatTxtFile("xxx");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            String FailPath = "D:\\南方科技大学\\OneDrive - 南方科技大学\\大一下\\JAVA\\ChessDemo\\ChessDemo\\file\\xxx.txt";
+
+            Chessboard.saveGame(FailPath);
+            String path = "D:\\南方科技大学\\OneDrive - 南方科技大学\\大一下\\JAVA\\ChessDemo\\ChessDemo\\file\\xxx.txt";
+            gameController.backGameFromFile(path,count2);
+        });
+    }
+
+
+
+
+
+
 
 
 }

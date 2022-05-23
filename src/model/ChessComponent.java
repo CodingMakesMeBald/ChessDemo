@@ -27,7 +27,7 @@ public abstract class ChessComponent extends JComponent {
     /**
      * handle click event
      */
-    private ClickController clickController;
+    public ClickController clickController;
     public static int round;
     public int counter;//棋子走的步数
     public int counter1;

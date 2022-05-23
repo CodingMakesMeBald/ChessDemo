@@ -1,9 +1,8 @@
 package controller;
 
 
-import model.ChessComponent;
-import model.EmptySlotComponent;
-import model.PawnChessComponent;
+import Music.Music;
+import model.*;
 import view.Chessboard;
 
 public class ClickController {
@@ -15,6 +14,8 @@ public class ClickController {
     }
 
     public void onClick(ChessComponent chessComponent) {
+
+
         if (first == null) {//目前无棋子被鼠标选中
             if (handleFirst(chessComponent)) {
                 chessComponent.setSelected(true);
@@ -23,19 +24,15 @@ public class ClickController {
             }
         } else {//目前已有棋子被选中
 
+
             if (first == chessComponent) { // 再次点击取消选取
                 chessComponent.setSelected(false);
                 ChessComponent recordFirst = first;
                 first = null;
                 recordFirst.repaint();
             } else if (handleSecond(chessComponent)) {
-                if (first instanceof PawnChessComponent && chessComponent.chessComponent != null){
-                    chessboard.swapChessComponents(first, chessComponent);
-                    chessboard.swapChessComponents(chessComponent,chessComponent.chessComponent);
-                    chessboard.swapChessComponents(first, chessComponent);
 
 
-                }
 
                 //repaint in swap chess method.
                 chessboard.swapChessComponents(first, chessComponent);
@@ -64,5 +61,9 @@ public class ClickController {
     private boolean handleSecond(ChessComponent chessComponent) {
         return chessComponent.getChessColor() != chessboard.getCurrentColor() &&
                 first.canMoveTo(chessboard.getChessComponents(), chessComponent.getChessboardPoint());
+    }
+
+    public void setFirst(ChessComponent first) {
+        this.first = first;
     }
 }

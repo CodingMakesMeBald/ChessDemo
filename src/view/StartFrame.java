@@ -39,7 +39,7 @@ public class StartFrame extends JFrame {
     private void addBackground(){
         JPanel imPanel = (JPanel) this.getContentPane();
         imPanel.setOpaque(false);// 设置面板透明
-        ImageIcon icon1 = new ImageIcon("resource\\start.jpeg");// 背景图
+        ImageIcon icon1 = new ImageIcon("images\\start.jpeg");// 背景图
         JLabel label = new JLabel(icon1);// 向标签中加入图片
         label.setBounds(0, 0, getWidth(), getHeight());// 设置标签与窗口一样大
         icon1.setImage(icon1.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));// 图片自适应窗口大小
